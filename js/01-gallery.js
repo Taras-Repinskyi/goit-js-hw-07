@@ -24,4 +24,4 @@ function createGalleryMarkup(items) {
 console.log(galleryItems);
     
 
-    
+    vdfvd
