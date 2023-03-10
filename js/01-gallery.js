@@ -1,27 +1,43 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
-console.log(createGalleryMarkup(items));
+const galleryContainer = document.querySelector('.gallery');
+
 function createGalleryMarkup(items) {
-    const markup = items.map(({preview, oripginal, description}) => {
-        return'
-        <div class="gallery__item">
-  <a class="gallery__link" href="large-image.jpg">
+    return items.map(({preview, original, description}) => {
+      return `
+           <div class="gallery__item">
+  <a class="gallery__link" href='${original}'>
     <img
       class="gallery__image"
-      src="small-image.jpg"
-      data-source="large-image.jpg"
-      alt="Image description"
+      src='${preview}',
+      data-source='${original}',
+      alt='${description}'
     />
   </a>
-</div >';
-}).join('');
-}
+</div >  ` ;
+    }).join('');
+};
+const cardsMarkup = createGalleryMarkup(galleryItems);
+galleryContainer.insertAdjacentHTML('beforeend', cardsMarkup);
+galleryContainer.addEventListener('click',onGalleryContainerClick);
 
+function onGalleryContainerClick(evt) { 
+  evt.preventDefault();
+  if (evt.target.nodeName !== 'IMG') {
+    return
+  }
 
+  const modalImg = evt.target.dataset.source;
+  const instance = basicLightbox.create(`<img src="${modalImg}" alt="" width="800" height="600">`);
+  instance.show();
+  document.addEventListener('keydown', onModalKeyDown);
 
-
+  function onModalKeyDown(evt) {
+    if (evt.code === 'Escape') {
+      instance.close();
+      document.removeEventListener('keydown', onModalKeyDown);
+    }
+  }
+};
 
 console.log(galleryItems);
-    
-
-    vdfvd
