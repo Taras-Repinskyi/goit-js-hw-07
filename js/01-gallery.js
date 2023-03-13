@@ -30,14 +30,19 @@ function onGalleryContainerClick(evt) {
   const modalImg = evt.target.dataset.source;
   const instance = basicLightbox.create(`<img src="${modalImg}" alt="" width="800" height="600">`);
   instance.show();
-  document.addEventListener('keydown', onModalKeyDown);
-
+  
   function onModalKeyDown(evt) {
     if (evt.code === 'Escape') {
       instance.close();
       document.removeEventListener('keydown', onModalKeyDown);
     }
   }
+  
+  document.addEventListener('keydown', onModalKeyDown);
+  instance.element().addEventListener('click', () => {
+    instance.close();
+    document.removeEventListener('keydown', onModalKeyDown);
+  });
 };
 
 console.log(galleryItems);
